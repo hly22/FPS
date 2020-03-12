@@ -19,6 +19,8 @@ public class PlayerAttack : MonoBehaviour
 
     private GameObject crosshair;
 
+    private bool is_Aiming;
+
     void Awake()
     {
 
@@ -40,9 +42,9 @@ public class PlayerAttack : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         WeaponShoot();
+        ZoomInAndOut();
 
     }
 
@@ -92,6 +94,22 @@ public class PlayerAttack : MonoBehaviour
                 {
                     // we have an arrow or spear
 
+                if(is_Aiming) {
+
+                        weapon_Manager.GetCurrentSelectedWeapon().ShootAnimation();
+
+                        if(weapon_Manager.GetCurrentSelectedWeapon().bulletType
+                            == WeaponBulletType.ARROW) {
+
+                            // throw arrow
+
+                        } else if(weapon_Manager.GetCurrentSelectedWeapon().bulletType
+                        == WeaponBulletType.SPEAR) {
+
+                            // throw spear
+                        }
+                    }
+
                 } // else
 
             } // if input get mouse button 0
@@ -102,7 +120,50 @@ public class PlayerAttack : MonoBehaviour
 
     void ZoomInAndOut() {
 
-    }
+        // we are going to aim with the camera on the weapon
+        if(weapon_Manager.GetCurrentSelectedWeapon().weapon_Aim == WeaponAim.AIM) {
+
+            // if we press and hold right mouse button
+            if(Input.GetMouseButtonDown(1)) {
+
+                zoomCameraAnim.Play(AnimationTags.ZOOM_IN_ANIM);
+
+                crosshair.SetActive(false);
+            }
+
+            // when we release the right mouse button
+            if (Input.GetMouseButtonUp(1)) {
+
+                zoomCameraAnim.Play(AnimationTags.ZOOM_OUT_ANIM);
+
+                crosshair.SetActive(true);
+            }
+        } // if we need to zoom the weapon
+
+        if(weapon_Manager.GetCurrentSelectedWeapon().weapon_Aim == WeaponAim.SELF_AIM) {
+
+            if(Input.GetMouseButtonDown(1)) {
+
+                weapon_Manager.GetCurrentSelectedWeapon().Aim(true);
+
+                is_Aiming = true;
+
+            }
+
+            if (Input.GetMouseButtonUp(1)) {
+
+                weapon_Manager.GetCurrentSelectedWeapon().Aim(false);
+
+                is_Aiming = false;
+
+            }
+
+
+
+
+        } // weapon self aim
+
+    } // zoom in and out
 
 
 
