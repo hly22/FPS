@@ -21,6 +21,15 @@ public class PlayerAttack : MonoBehaviour
 
     private bool is_Aiming;
 
+    [SerializeField]
+    private GameObject arrow_Prefab, spear_Prefab;
+
+    [SerializeField]
+    private Transform arrow_Bow_StartPosition;
+
+
+
+
     void Awake()
     {
 
@@ -102,11 +111,14 @@ public class PlayerAttack : MonoBehaviour
                             == WeaponBulletType.ARROW) {
 
                             // throw arrow
+                            ThrowArrowOrSpear(true);
 
                         } else if(weapon_Manager.GetCurrentSelectedWeapon().bulletType
                         == WeaponBulletType.SPEAR) {
 
                             // throw spear
+                            ThrowArrowOrSpear(false);
+
                         }
                     }
 
@@ -165,7 +177,32 @@ public class PlayerAttack : MonoBehaviour
 
     } // zoom in and out
 
+    void ThrowArrowOrSpear(bool throwArrow) {
 
+        if(throwArrow) {
+
+            GameObject arrow = Instantiate(arrow_Prefab);
+            arrow.transform.position = arrow_Bow_StartPosition.position;
+
+            arrow.GetComponent<ArrowBowScript>().Launch(mainCam);
+
+        } else {
+
+            GameObject spear = Instantiate(spear_Prefab);
+            spear.transform.position = arrow_Bow_StartPosition.position;
+
+            spear.GetComponent<ArrowBowScript>().Launch(mainCam);
+
+        }
+
+    } // throw arrow or spear
+
+    void BulletFired() {
+        RaycastHit hit;
+
+
+
+    } // bullet fired
 
 } // class
 
