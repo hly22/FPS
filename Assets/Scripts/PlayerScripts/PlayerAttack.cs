@@ -73,7 +73,7 @@ public class PlayerAttack : MonoBehaviour
 
                 weapon_Manager.GetCurrentSelectedWeapon().ShootAnimation();
 
-                // BulletFired();
+                BulletFired();
 
             }
             // if we have a regular weapon that shoots once
@@ -96,7 +96,7 @@ public class PlayerAttack : MonoBehaviour
 
                     weapon_Manager.GetCurrentSelectedWeapon().ShootAnimation();
 
-                    // BulletFired():
+                    BulletFired();
 
                 }
                 else
@@ -198,9 +198,14 @@ public class PlayerAttack : MonoBehaviour
     } // throw arrow or spear
 
     void BulletFired() {
+
         RaycastHit hit;
 
+        if(Physics.Raycast(mainCam.transform.position, mainCam.transform.forward, out hit)) {
 
+            print("WE HIT: " + hit.transform.gameObject.name);
+
+        }
 
     } // bullet fired
 
